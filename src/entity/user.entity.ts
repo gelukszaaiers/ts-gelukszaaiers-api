@@ -23,7 +23,7 @@ export class User extends BaseEntity {
     @Column({ default: "nl" })
     langCode: string;
 
-    @Column()
+    @Column({ nullable: true })
     profilePicture: string;
 
     @Column({ nullable: true })

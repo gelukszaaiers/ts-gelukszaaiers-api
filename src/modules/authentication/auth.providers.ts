@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { UsersService } from './../user/users.service';
 import { FacebookStrategy } from './passport/facebook.strategy';
 import { authSerializer } from './auth.serializer';
+import { CryptoService } from '../crypto/crypto.service';
 
 export const authProviders = [
   {
@@ -18,6 +19,10 @@ export const authProviders = [
   {
     provide: 'FacebookStrategy',
     useClass: FacebookStrategy,
+  },
+  {
+    provide: 'CryptoServiceToken',
+    useClass: CryptoService,
   },
   { provide: 'UserRepositoryToken',
     useFactory: (connection: Connection) => connection.getRepository(User),

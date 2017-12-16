@@ -10,38 +10,29 @@ import { Device } from "../../entity/device.entity";
 
 @Component()
 export class AuthService {
+  private readonly algorithm: string
+
   constructor(
     @Inject("UserRepositoryToken") private readonly userRepository: Repository<User>,
-    @Inject("DeviceRepositoryToken") private readonly deviceRepository: Repository<Device>
+    @Inject("DeviceRepositoryToken") private readonly deviceRepository: Repository<Device>,
+    @Inject("CryptoServiceToken") private readonly cryptoService
   ) {}
 
-  async createRefreshToken() {
-    const algorithm = "sha512";
-    const hash = crypto.createHash(algorithm);
-    hash.update(uuidV4());
-    const refreshToken = hash.digest("hex");
-    return refreshToken;
-  }
-
-  async createTokens(user) {
+  private async createTokens(user) {
     const expiresIn = 60 * 60;
     const secretOrKey = "secret";
-    const accessToken = jwt.sign({
+    const refreshToken = await this.cryptoService.hashString();
+    const accessToken = this.cryptoService.signJwt({
       id: user.id,
       langCode: user.langCode,
       email: user.email,
       name: user.name
-    },
-      config.get("authentication.secret"),
-      {
-        expiresIn: config.get("authentication.accessTokenExpiration")
-      });
-    const refreshToken = await this.createRefreshToken();
+    })
 
     return { expires_in: expiresIn, accessToken, refreshToken };
   }
 
-  async updateDeviceForUser(userId, identifier, tokens) {
+  private async updateDeviceForUser(userId, identifier, tokens) {
     const device = await this.deviceRepository.findOne({ identifier });
     const refreshTokenExpires = DateTime.utc()
       .plus({ days: config.get("authentication.refreshTokenExpirationDays") })
@@ -56,7 +47,7 @@ export class AuthService {
     });
   }
 
-  async refreshTokens({ identifier, refreshToken }) {
+  async refresh({ identifier, refreshToken }) {
     const refreshValid = config.get("authentication.refreshTokenExpirationDays");
     const device = await this.deviceRepository.findOne({ identifier, refreshToken });
 
@@ -69,10 +60,18 @@ export class AuthService {
     return tokens;
   }
 
-  async validateUser(signedUser): Promise<boolean> {
-    // put some validation logic here
-    // for example query user by id / email / username
-    return true;
+  async validate({ email, password, identifier }) {
+    const user: User = await this.userRepository.findOne({ email });
+    if (!user) throw new Error('Please register');
+
+    const passwordVerificationString: string = this.cryptoService.hashString(password);
+    const isValid: boolean = passwordVerificationString === user.password;
+
+    if (!isValid) throw new Error('Unauthorized');
+    const tokens = await this.createTokens(user);
+    await this.updateDeviceForUser(user.id, identifier, tokens);
+
+    return tokens;
   }
 
   async facebook(accessToken, refreshToken, profile) {
