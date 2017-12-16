@@ -1,0 +1,14 @@
+{
+  "facebook": {
+    "clientId": "FACEBOOK_CLIENT_ID",
+    "clientSecret": "FACEBOOK_CLIENT_SECRET"
+  },
+  "database": {
+    "url": "DATABASE_URL",
+    "host": "DATABASE_HOST",
+    "port": "DATABASE_PORT",
+    "username": "DATABASE_USER",
+    "password": "DATABASE_PW",
+    "name": "DATABASE_NAME"
+  }
+}
