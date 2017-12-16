@@ -1,25 +1,27 @@
-import { Controller, Get, Post, HttpStatus, Inject } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Inject, Body, Req } from '@nestjs/common';
+import { FacebookDto } from './dto/facebook.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject('authServiceToken') private readonly usersService
+    @Inject('AuthServiceToken') private readonly authService
   ) {}
-
   // @HttpStatus(201)
   @Post('facebook')
-  facebookAuthentication() {
-    // TODO: Add some logic here
+  async facebookAuthentication(@Req() req) {
+    return {
+      accessToken: req.user.access_token,
+    }
   }
 
   // @HttpStatus(200)
   @Post('login')
   login() {
-    return this.usersService.findAll();
+    // return this.usersService.findAll();
   }
 
   @Get('refresh')
   getRefreshToken() {
-    return this.usersService.findAll();
+    // return this.usersService.findAll();
   }
 }

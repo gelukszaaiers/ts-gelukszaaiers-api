@@ -17,20 +17,23 @@ export class User extends BaseEntity {
     @Column()
     email: string;
 
-    @Column()
+    @Column({ nullable: true })
     mobile: string;
 
-    @Column()
+    @Column({ default: "nl" })
     langCode: string;
 
     @Column()
     profilePicture: string;
 
-    @Column()
+    @Column({ nullable: true })
     password: string;
 
-    @Column()
+    @Column({ nullable: true })
     salt: string;
+
+    @Column({ type: "jsonb", nullable: true })
+    facebook: object;
 
     @CreateDateColumn()
     createdAt: string;
