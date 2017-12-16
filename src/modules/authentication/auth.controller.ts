@@ -4,14 +4,16 @@ import { FacebookDto } from './dto/facebook.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    @Inject('AuthServiceToken') private readonly authService
+    @Inject('AuthServiceToken') private readonly authService,
+    @Inject('authSerializer') private readonly authSerializer
   ) {}
   // @HttpStatus(201)
   @Post('facebook')
   async facebookAuthentication(@Req() req) {
-    return {
+    return this.authSerializer.serialize({
       accessToken: req.user.access_token,
-    }
+      refreshToken: req.user.refresh_token,
+    });
   }
 
   // @HttpStatus(200)
