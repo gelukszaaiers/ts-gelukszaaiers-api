@@ -17,7 +17,7 @@ export class FacebookStrategy extends FacebookTokenStrategy {
       async (req, accessToken, refreshToken, profile, done) => {
         const tokens = await this.authService.facebook(accessToken, refreshToken, profile);
         return done(null, tokens);
-      }
+      },
     );
     passport.use(this);
   }

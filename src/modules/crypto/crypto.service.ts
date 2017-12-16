@@ -1,8 +1,8 @@
-import * as config from "config";
-import * as crypto from "crypto";
-import * as uuidV4 from "uuid/v4";
-import * as jwt from "jsonwebtoken";
-import { Component, Inject } from "@nestjs/common";
+import * as config from 'config';
+import * as crypto from 'crypto';
+import * as uuidV4 from 'uuid/v4';
+import * as jwt from 'jsonwebtoken';
+import { Component, Inject } from '@nestjs/common';
 
 @Component()
 export class CryptoService {
@@ -12,8 +12,8 @@ export class CryptoService {
   private readonly secret: string;
 
   constructor() {
-    const crypto = config.get("crypto");
-    const authentication = config.get("authentication");
+    const crypto = config.get('crypto');
+    const authentication = config.get('authentication');
     this.algorithm = crypto.algorithm;
     this.salt = crypto.salt;
     this.expiresIn = authentication.accessTokenExpiration;
@@ -21,10 +21,10 @@ export class CryptoService {
 
   }
 
-  hashString(str: string = ""): string {
+  hashString(str: string = ''): string {
     const hash = crypto.createHash(this.algorithm);
     hash.update(str + this.salt);
-    return hash.digest("hex");
+    return hash.digest('hex');
   }
 
   signJwt(data): string {

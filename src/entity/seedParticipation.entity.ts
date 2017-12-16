@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Seed } from "./seed.entity";
-import { User } from "./user.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Seed } from './seed.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class SeedParticipation extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   cancelled: boolean;

@@ -1,15 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Like } from "./like.entity";
-import { Media } from "./media.entity";
-import { Device } from "./device.entity";
-import { Seed } from "./seed.entity";
-import { SeedParticipation } from "./seedParticipation.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Like } from './like.entity';
+import { Media } from './media.entity';
+import { Device } from './device.entity';
+import { Seed } from './seed.entity';
+import { SeedParticipation } from './seedParticipation.entity';
 
 @Entity()
 export class User extends BaseEntity {
 
-    @PrimaryGeneratedColumn("uuid")
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     name: string;
@@ -20,7 +20,7 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     mobile: string;
 
-    @Column({ default: "nl" })
+    @Column({ default: 'nl' })
     langCode: string;
 
     @Column({ nullable: true })
@@ -32,7 +32,7 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     salt: string;
 
-    @Column({ type: "jsonb", nullable: true })
+    @Column({ type: 'jsonb', nullable: true })
     facebook: object;
 
     @CreateDateColumn()
@@ -51,7 +51,7 @@ export class User extends BaseEntity {
     @OneToMany(type => Device, device => device.user)
     devices: Device[];
 
-    @OneToMany(type => Seed, seed => seed.user)
+    @OneToMany(type => Seed, seed => seed.owner)
     seeds: Seed[];
 
     @OneToMany(type => SeedParticipation, seedParticipation => seedParticipation.user)

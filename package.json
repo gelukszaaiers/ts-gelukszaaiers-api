@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon",
-    "lint": "yarn eslint ./src",
+    "lint": "yarn tslint ./src",
+    "lint:fix": "yarn tslint --fix ./src",
     "prestart:prod": "tsc",
     "start:prod": "node dist/server.js"
   },
@@ -30,6 +31,7 @@
     "redis": "^2.7.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.0",
+    "tslint": "5.8.0",
     "typeorm": "^0.1.9",
     "typescript": "^2.5.2",
     "uuid": "^3.1.0"

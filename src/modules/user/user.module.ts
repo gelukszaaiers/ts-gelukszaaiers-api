@@ -13,4 +13,4 @@ import { UsersController } from './users.controller';
   ],
 })
 
-export class userModule {}
+export class UserModule {}

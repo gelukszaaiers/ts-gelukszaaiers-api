@@ -6,7 +6,7 @@ export class UsersController {
   constructor(
     @Inject('UsersServiceToken') private readonly usersService,
     @Inject('userSerializer') private readonly userSerializer,
-    @Inject('UserRepositoryToken') private readonly userRepository
+    @Inject('UserRepositoryToken') private readonly userRepository,
   ) {}
 
   // @HttpStatus(201)
@@ -24,9 +24,6 @@ export class UsersController {
 
   @Get('current')
   getProfile(@Req() req) {
-    console.log('@@@@@@@@@@@@@@@@@@@@@');
-    console.log('req.user', JSON.stringify(req.user, null, 2));
-    console.log('@@@@@@@@@@@@@@@@@@@@@');
     return this.userSerializer.serialize(req.user);
   }
 }

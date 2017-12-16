@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Media } from "./media.entity";
-import { Seed } from "./seed.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Media } from './media.entity';
+import { Seed } from './seed.entity';
 
 @Entity()
 export class SeedMedia extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   featured: boolean;

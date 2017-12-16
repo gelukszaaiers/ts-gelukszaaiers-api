@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./user.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Device extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   userId: string;

@@ -1,4 +1,4 @@
-import * as config from "config";
+import * as config from 'config';
 import { Controller, Get, Post, HttpStatus, Inject, Body, Req } from '@nestjs/common';
 import { FacebookDto } from './dto/facebook.dto';
 import { LoginDto } from './dto/login.dto';
@@ -7,7 +7,7 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(
     @Inject('AuthServiceToken') private readonly authService,
-    @Inject('authSerializer') private readonly authSerializer
+    @Inject('authSerializer') private readonly authSerializer,
   ) {}
 
   @Post('facebook')

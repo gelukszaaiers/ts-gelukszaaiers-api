@@ -1,16 +1,16 @@
-import { createConnection } from "typeorm";
-import * as config from "config";
+import { createConnection } from 'typeorm';
+import * as config from 'config';
 
 export const databaseProviders = [
   {
-    provide: "DbConnectionToken",
+    provide: 'DbConnectionToken',
     useFactory: async () => {
       const dbConfig = JSON.parse(JSON.stringify(config.get('database')));
       if (dbConfig.url) return await createConnection({
         url: dbConfig.database.url,
         type: dbConfig.database.type,
         entities: [
-          __dirname + '/../../entity/**/*.ts'
+          __dirname + '/../../entity/**/*.ts',
         ],
         synchronize: dbConfig.synchronize,
         logging: dbConfig.logging,
@@ -24,7 +24,7 @@ export const databaseProviders = [
         password: dbConfig.password,
         database: dbConfig.name,
         entities: [
-          __dirname + '/../../entity/**/*.ts'
+          __dirname + '/../../entity/**/*.ts',
         ],
         synchronize: dbConfig.synchronize,
         logging: dbConfig.logging,

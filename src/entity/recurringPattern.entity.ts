@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Seed } from "./seed.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Seed } from './seed.entity';
 
 @Entity()
 export class RecurringPattern extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   start: Date;
@@ -17,7 +17,7 @@ export class RecurringPattern extends BaseEntity {
   interval: string;
 
   @Column()
-  numOccurences: string;
+  numOccurences: number;
 
   @CreateDateColumn()
   createdAt: string;

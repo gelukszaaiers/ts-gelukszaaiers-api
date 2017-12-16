@@ -1,14 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { Seed } from "./seed.entity";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Seed } from './seed.entity';
 
 @Entity()
 export class Location extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column("point")
-  coords: string|Object;
+  @Column('simple-array')
+  coords: number[];
 
   @Column()
   address: string;
@@ -20,7 +20,7 @@ export class Location extends BaseEntity {
   city: string;
 
   @Column()
-  country: number;
+  country: string;
 
   @CreateDateColumn()
   createdAt: string;
