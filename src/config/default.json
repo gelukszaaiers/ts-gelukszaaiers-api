@@ -7,5 +7,8 @@
   "authentication": {
     "refreshTokenExpirationDays": 30,
     "accessTokenExpiration": "8h"
+  },
+  "crypto": {
+    "algorithm": "sha512"
   }
 }

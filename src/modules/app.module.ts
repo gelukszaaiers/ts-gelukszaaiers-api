@@ -15,6 +15,14 @@ export class ApplicationModule implements NestModule {
   public configure(consumer: MiddlewaresConsumer) {
     consumer
       .apply(passport.authenticate('jwt', { session: false }))
-      .forRoutes(UsersController);
+      .forRoutes(
+        { path: '/users', method: RequestMethod.GET },
+        { path: '/users/{id}', method: RequestMethod.GET },
+        { path: '/users/current', method: RequestMethod.GET },
+        { path: '/users/current', method: RequestMethod.PUT },
+        { path: '/users/current/verify', method: RequestMethod.POST },
+        { path: '/users/current/avatar', method: RequestMethod.POST },
+        { path: '/users/current/avatar', method: RequestMethod.DELETE },
+      );
   }
 }

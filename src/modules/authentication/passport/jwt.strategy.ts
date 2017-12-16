@@ -1,4 +1,5 @@
 import * as passport from 'passport';
+import * as config from 'config';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Component, Inject } from '@nestjs/common';
 import { AuthService } from '../auth.service';
@@ -10,7 +11,7 @@ export class JwtStrategy extends Strategy {
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         passReqToCallback: true,
-        secretOrKey: 'secret',
+        secretOrKey: config.get("authentication.secret"),
       },
       async (req, payload, next) => await this.verify(req, payload, next)
     );
@@ -18,10 +19,6 @@ export class JwtStrategy extends Strategy {
   }
 
   public async verify(req, payload, done) {
-    const isValid = await this.authService.validateUser(payload);
-    if (!isValid) {
-      return done('Unauthorized', false);
-    }
     done(null, payload);
   }
 }

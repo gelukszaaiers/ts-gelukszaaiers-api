@@ -13,5 +13,8 @@
   },
   "authentication": {
     "secret": "AUTH_SECRET"
+  },
+  "crypto": {
+    "salt": "CRYPTO_SALT"
   }
 }

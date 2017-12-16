@@ -1,6 +1,7 @@
 import * as config from "config";
 import { Controller, Get, Post, HttpStatus, Inject, Body, Req } from '@nestjs/common';
 import { FacebookDto } from './dto/facebook.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -8,7 +9,7 @@ export class AuthController {
     @Inject('AuthServiceToken') private readonly authService,
     @Inject('authSerializer') private readonly authSerializer
   ) {}
-  // @HttpStatus(201)
+
   @Post('facebook')
   async facebookAuthentication(@Req() req) {
     const tokens = req.user;
@@ -17,15 +18,15 @@ export class AuthController {
     return this.authSerializer.serialize(tokens);
   }
 
-  // @HttpStatus(200)
   @Post('login')
-  login() {
-    // return this.usersService.findAll();
+  async login(@Body() loginDto: LoginDto) {
+    const tokens = await this.authService.validate(loginDto);
+    return this.authSerializer.serialize(tokens);
   }
 
   @Post('refresh')
   async getRefreshToken(@Req() req) {
-    const tokens =  await this.authService.refreshTokens(req.body);
+    const tokens =  await this.authService.refresh(req.body);
     return this.authSerializer.serialize(tokens);
   }
 }
