@@ -18,8 +18,5 @@ export class AuthModule implements NestModule {
     consumer
       .apply(passport.authenticate('facebook-token', { session: false }))
       .forRoutes({ path: '/auth/facebook', method: RequestMethod.POST });
-    // consumer
-    //   .apply(passport.authenticate('jwt', { session: false }))
-    //   .forRoutes({ path: '/auth/authorized', method: RequestMethod.ALL });
   }
 }

@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import * as passport from 'passport';
+import { Module, NestModule, MiddlewaresConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AuthModule } from './authentication/auth.module';
 import { userModule } from './user/user.module';
+import { UsersController } from './user/users.controller';
 
 @Module({
   modules: [userModule, AuthModule],
@@ -9,4 +11,10 @@ import { userModule } from './user/user.module';
   components: [],
 })
 
-export class ApplicationModule {}
+export class ApplicationModule implements NestModule {
+  public configure(consumer: MiddlewaresConsumer) {
+    consumer
+      .apply(passport.authenticate('jwt', { session: false }))
+      .forRoutes(UsersController);
+  }
+}
