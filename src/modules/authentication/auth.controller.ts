@@ -10,10 +10,10 @@ export class AuthController {
   // @HttpStatus(201)
   @Post('facebook')
   async facebookAuthentication(@Req() req) {
-    return this.authSerializer.serialize({
-      accessToken: req.user.access_token,
-      refreshToken: req.user.refresh_token,
-    });
+    const tokens = req.user;
+    const { identifier } = req.body;
+    await this.authService.updateDeviceForUser(req.user.id, identifier, tokens);
+    return this.authSerializer.serialize(tokens);
   }
 
   // @HttpStatus(200)

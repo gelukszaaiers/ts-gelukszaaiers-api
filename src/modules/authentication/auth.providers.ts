@@ -1,5 +1,6 @@
 import { Connection, Repository } from 'typeorm';
 import { User } from '../../entity/user.entity';
+import { Device } from '../../entity/device.entity';
 import { AuthService } from './auth.service';
 import { UsersService } from './../user/users.service';
 import { FacebookStrategy } from './passport/facebook.strategy';
@@ -20,6 +21,10 @@ export const authProviders = [
   },
   { provide: 'UserRepositoryToken',
     useFactory: (connection: Connection) => connection.getRepository(User),
+    inject: ['DbConnectionToken'],
+  },
+  { provide: 'DeviceRepositoryToken',
+    useFactory: (connection: Connection) => connection.getRepository(Device),
     inject: ['DbConnectionToken'],
   },
 ];

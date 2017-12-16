@@ -3,5 +3,9 @@
     "logging": false,
     "synchronize": true,
     "type": "postgres"
+  },
+  "authentication": {
+    "refreshTokenExpirationDays": 30,
+    "accessTokenExpiration": "8h"
   }
 }

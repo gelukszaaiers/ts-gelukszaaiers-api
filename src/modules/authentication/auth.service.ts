@@ -1,27 +1,59 @@
-import * as jwt from 'jsonwebtoken';
-import { Component, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { User } from '../../entity/user.entity';
+import * as crypto from "crypto";
+import * as uuidV4 from "uuid/v4";
+import * as config from "config";
+import { DateTime } from "luxon";
+import * as jwt from "jsonwebtoken";
+import { Component, Inject } from "@nestjs/common";
+import { Repository } from "typeorm";
+import { User } from "../../entity/user.entity";
+import { Device } from "../../entity/device.entity";
 
 @Component()
 export class AuthService {
   constructor(
-    @Inject('UserRepositoryToken') private readonly userRepository: Repository<User>
+    @Inject("UserRepositoryToken") private readonly userRepository: Repository<User>,
+    @Inject("DeviceRepositoryToken") private readonly deviceRepository: Repository<Device>
   ) {}
 
-  async createToken(user) {
+  async createRefreshToken() {
+    const algorithm = "sha512";
+    const hash = crypto.createHash(algorithm);
+    hash.update(uuidV4());
+    const refreshToken = hash.digest("hex");
+    return refreshToken;
+  }
+
+  async createTokens(user) {
     const expiresIn = 60 * 60;
-    const secretOrKey = 'secret';
-    const token = jwt.sign({
+    const secretOrKey = "secret";
+    const accessToken = jwt.sign({
       id: user.id,
       langCode: user.langCode,
       email: user.email,
       name: user.name
-    }, secretOrKey, { expiresIn });
-    return {
-      expires_in: expiresIn,
-      access_token: token,
-    };
+    },
+      config.get("authentication.secret"),
+      {
+        expiresIn: config.get("authentication.accessTokenExpiration")
+      });
+    const refreshToken = await this.createRefreshToken();
+
+    return { expires_in: expiresIn, accessToken, refreshToken };
+  }
+
+  async updateDeviceForUser(userId, identifier, tokens) {
+    const device = await this.deviceRepository.findOne({ identifier });
+    const refreshTokenExpires = DateTime.utc()
+      .plus({ days: config.get("authentication.refreshTokenExpirationDays") })
+      .toISO();
+
+    return await this.deviceRepository.save({
+      id: device && device.id,
+      identifier,
+      refreshToken: tokens.refreshToken,
+      refreshTokenExpires,
+      userId,
+    });
   }
 
   async validateUser(signedUser): Promise<boolean> {
@@ -43,7 +75,7 @@ export class AuthService {
     const updatedUser = await this.userRepository.save({
       id: user[0] && user[0].id,
       name: givenName,
-      email: email || 'testUser@email.com',
+      email: email || "testUser@email.com",
       profilePicture: avatarUrl.value,
       facebook: Object.assign({}, {
         name: profile.name,
@@ -55,6 +87,7 @@ export class AuthService {
       }),
     });
 
-    return await this.createToken(updatedUser);
+    const tokens = await this.createTokens(updatedUser);
+    return await Object.assign({}, { id: updatedUser.id }, tokens);
   }
 }

@@ -10,5 +10,8 @@
     "username": "DATABASE_USER",
     "password": "DATABASE_PW",
     "name": "DATABASE_NAME"
+  },
+  "authentication": {
+    "secret": "AUTH_SECRET"
   }
 }

@@ -10,13 +10,13 @@ export class Device extends BaseEntity {
   @Column()
   userId: string;
 
-  @Column()
+  @Column({ unique: true })
   identifier: string;
 
-  @Column()
+  @Column({ default: false })
   verified: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   verificationCode: number;
 
   @Column()
