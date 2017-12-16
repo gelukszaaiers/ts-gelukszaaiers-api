@@ -16,6 +16,7 @@
     "@nestjs/microservices": "^4.4.0",
     "@nestjs/testing": "^4.4.0",
     "@nestjs/websockets": "^4.4.0",
+    "class-validator": "^0.7.3",
     "config": "^1.28.1",
     "dotenv-safe": "^4.0.4",
     "eslint": "4.13.1",

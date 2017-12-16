@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpStatus, Inject, Body, Req } from '@nestjs/common';
+import { Controller, Get, Post, HttpStatus, Inject, Body, Req, UseFilters } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
@@ -24,9 +24,6 @@ export class UsersController {
 
   @Get('current')
   getProfile(@Req() req) {
-    console.log('@@@@@@@@@@@@@@@@@@@@@');
-    console.log('req.user', JSON.stringify(req.user, null, 2));
-    console.log('@@@@@@@@@@@@@@@@@@@@@');
     return this.userSerializer.serialize(req.user);
   }
 }

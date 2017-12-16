@@ -1,4 +1,5 @@
 {
+  "showStackTrace": "SHOW_STACK_TRACE",
   "facebook": {
     "clientId": "FACEBOOK_CLIENT_ID",
     "clientSecret": "FACEBOOK_CLIENT_SECRET"

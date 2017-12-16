@@ -3,10 +3,11 @@ import * as uuidV4 from "uuid/v4";
 import * as config from "config";
 import { DateTime } from "luxon";
 import * as jwt from "jsonwebtoken";
-import { Component, Inject } from "@nestjs/common";
+import { Component, Inject, HttpStatus, HttpException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { User } from "../../entity/user.entity";
 import { Device } from "../../entity/device.entity";
+import { UnauthorizedException } from '../exceptions';
 
 @Component()
 export class AuthService {
@@ -62,12 +63,12 @@ export class AuthService {
 
   async validate({ email, password, identifier }) {
     const user: User = await this.userRepository.findOne({ email });
-    if (!user) throw new Error('Please register');
+    if (!user) throw new UnauthorizedException();
 
     const passwordVerificationString: string = this.cryptoService.hashString(password);
     const isValid: boolean = passwordVerificationString === user.password;
 
-    if (!isValid) throw new Error('Unauthorized');
+    if (!isValid) throw new UnauthorizedException();
     const tokens = await this.createTokens(user);
     await this.updateDeviceForUser(user.id, identifier, tokens);
 
