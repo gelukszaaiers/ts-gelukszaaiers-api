@@ -56,6 +56,19 @@ export class AuthService {
     });
   }
 
+  async refreshTokens({ identifier, refreshToken }) {
+    const refreshValid = config.get("authentication.refreshTokenExpirationDays");
+    const device = await this.deviceRepository.findOne({ identifier, refreshToken });
+
+    if (!device) throw new Error('Unauthorized');
+
+    const user = await this.userRepository.findOneById(device.userId);
+    const tokens = await this.createTokens(user);
+    await this.updateDeviceForUser(user.id, identifier, tokens);
+
+    return tokens;
+  }
+
   async validateUser(signedUser): Promise<boolean> {
     // put some validation logic here
     // for example query user by id / email / username

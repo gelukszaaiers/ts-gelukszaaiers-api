@@ -1,3 +1,4 @@
+import * as config from "config";
 import { Controller, Get, Post, HttpStatus, Inject, Body, Req } from '@nestjs/common';
 import { FacebookDto } from './dto/facebook.dto';
 
@@ -22,8 +23,9 @@ export class AuthController {
     // return this.usersService.findAll();
   }
 
-  @Get('refresh')
-  getRefreshToken() {
-    // return this.usersService.findAll();
+  @Post('refresh')
+  async getRefreshToken(@Req() req) {
+    const tokens =  await this.authService.refreshTokens(req.body);
+    return this.authSerializer.serialize(tokens);
   }
 }
