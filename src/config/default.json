@@ -1,8 +1,5 @@
 {
   "database": {
-    "entities": [
-      "../entity/**/*.ts"
-    ],
     "logging": false,
     "synchronize": true,
     "type": "postgres"

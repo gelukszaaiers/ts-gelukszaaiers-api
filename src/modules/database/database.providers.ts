@@ -9,7 +9,9 @@ export const databaseProviders = [
       if (dbConfig.url) return await createConnection({
         url: dbConfig.database.url,
         type: dbConfig.database.type,
-        entities: [ dbConfig.entities ],
+        entities: [
+          __dirname + '/../../entity/**/*.ts'
+        ],
         synchronize: dbConfig.synchronize,
         logging: dbConfig.logging,
       });
@@ -21,7 +23,9 @@ export const databaseProviders = [
         username: dbConfig.username,
         password: dbConfig.password,
         database: dbConfig.name,
-        entities: [ dbConfig.entities ],
+        entities: [
+          __dirname + '/../../entity/**/*.ts'
+        ],
         synchronize: dbConfig.synchronize,
         logging: dbConfig.logging,
       });
