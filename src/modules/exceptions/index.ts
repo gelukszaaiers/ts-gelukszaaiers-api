@@ -10,6 +10,7 @@ import { InternalServerErrorException } from './internal-server-error.exception'
 import { BadGatewayException } from './bad-gateway.exception';
 import { ServiceUnavailableException } from './service-unavailable.exception';
 import { GatewayTimeoutException } from './gateway-timeout.exception';
+import { InvalidInputException } from './invalid-input.exception';
 
 export {
   UnauthorizedException,
@@ -24,4 +25,5 @@ export {
   BadGatewayException,
   ServiceUnavailableException,
   GatewayTimeoutException,
+  InvalidInputException,
 }
